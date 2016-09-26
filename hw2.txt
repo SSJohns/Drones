@@ -1,0 +1,7 @@
+
+python hw2.py --connect 127.0.0.1:14550 --delivery dronekit-python/examples/drone_delivery/SouthBendDelivery.txt 
+:wq
+
+A
+A
+
