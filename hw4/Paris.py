@@ -4,7 +4,6 @@
 import random
 import UpdateJSON
 from dronekit import LocationGlobalRelative
-from shutil import copyfile
 
 #Coordinates
 right = 2.399188
@@ -50,7 +49,7 @@ def generateCoordinate():
     randNum = random.random()
     verticalOffSet = randNum* verticalRange
     newLatitude = (mBottom+verticalOffSet)/1000000
-    
+
     # Create longitude
     randNum = random.random()
     horizontalOffSet = randNum* horizontalRange
@@ -62,7 +61,7 @@ def generateCoordinate():
 deliveryJobs = []
 for jobNum in range(0, 100):
     job = deliveryRequest(jobNum)
-    deliveryJobs.append(job);  
+    deliveryJobs.append(job);
     jobName = "Job" + str(job.getJobID())
     #Show starting coordinates.
     UpdateJSON.updateMapCoordinateData(jobName, job.getStart().lat, job.getStart().lon)
@@ -72,12 +71,17 @@ UpdateJSON.generateNewFile()
 # You can turn this off
 print "Sanity check: You can turn this off though"
 print "Iterate through list of generated coordinates"
-for job in deliveryJobs:
-    print job.getJobID()
-    print job.getStart()
-    print job.getEnd()
-    print
+# for job in deliveryJobs:
+#     print job.getJobID()
+#     print job.getStart()
+#     print job.getEnd()
+#     print
 
-drones = {}
-for drone_num in range(0, 5):
-    
+recharge_stations = [(48.864446, 2.325283),(48.858093, 2.296604),(48.846185, 2.346708)]
+
+data = UpdateJSON.getFile()
+# drones = {} # drone id : location
+# for drone_num in range(0, 5):
+#     drones.update({drone_num:LocationGlobalRelative(48.858093, 2.296604, drone_num*10+30)})
+# for drone_num in range(0, 5):
+#     drones.update({drone_num:LocationGlobalRelative(48.846185, 2.346708, drone_num*10+30)})

@@ -7,7 +7,7 @@ import time
 
 
 #Set up option parsing to get connection string
-import argparse  
+import argparse
 import Queue
 import sys
 import math
@@ -36,26 +36,26 @@ def arm_and_takeoff(aTargetAltitude, vehicle):
         print " Waiting for vehicle to initialise..."
         time.sleep(1)
 
-        
+
     print "Arming motors"
     # Copter should arm in GUIDED mode
     vehicle.mode = VehicleMode("GUIDED")
-    vehicle.armed = True    
+    vehicle.armed = True
 
     # Confirm vehicle armed before attempting to take off
-    while not vehicle.armed:      
+    while not vehicle.armed:
         print " Waiting for arming..."
         time.sleep(1)
 
     print "Taking off!"
     vehicle.simple_takeoff(aTargetAltitude) # Take off to target altitude
 
-    # Wait until the vehicle reaches a safe height before processing the goto (otherwise the command 
+    # Wait until the vehicle reaches a safe height before processing the goto (otherwise the command
     #  after Vehicle.simple_takeoff will execute immediately).
     while True:
-        print " Altitude: ", vehicle.location.global_relative_frame.alt 
-        #Break and return from function just below target altitude.        
-        if vehicle.location.global_relative_frame.alt>=aTargetAltitude*0.95: 
+        print " Altitude: ", vehicle.location.global_relative_frame.alt
+        #Break and return from function just below target altitude.
+        if vehicle.location.global_relative_frame.alt>=aTargetAltitude*0.95:
             print "Reached target altitude"
             break
         time.sleep(1)
@@ -73,7 +73,7 @@ def main(args):
 
     print "Set default/target airspeed to 10"
     vehicle.airspeed = 10
-    
+
     # fly to starting location
     takeOffPoint = (41.519165,-86.239902)
     vehicle.simple_goto( dronekit.LocationGlobalRelative(takeOffPoint.first,takeOffPoint.second,30))
@@ -81,8 +81,8 @@ def main(args):
     # Hide the black box
     hiddenCoords = hideBlackBox()
     hiddenSpot = LocationGlobal(hiddenCoords[0], hiddenCoords[1],hiddenCoords[2])
-    
-    print hiddenSpot 
+
+    print hiddenSpot
 
     def decreaseRange(curr):
         if curr == curr_top_right:
@@ -119,7 +119,7 @@ def main(args):
         b = (vehicle_local, getPing(vehicle_local))
 
         if direction == 'north':
-            vehicle.simple_goto( dronekit.LocationGlobalRelative(float(vehicle_local['lat']),float(vehicle_local['lon'] - (1*math.cos( vehicle_local['lat'] ),30))
+            vehicle.simple_goto( dronekit.LocationGlobalRelative(float(vehicle_local['lat']),float(vehicle_local['lon'] - (1*math.cos( vehicle_local['lat'] ),30))))
             time.sleep(1)
             vehicle_obj = vehicle.location.global_frame
             vehicle_local = {'lat':vehicle_obj.lat,'lon':vehicle_obj.lon}
@@ -147,7 +147,7 @@ def main(args):
         x = x - ( (b.second^2 - c.second^2) + (c.first['lat']^2 - b.first['lat']^2) + (c.first['lon']^2 - b.first['lon']) )*(2.*b.first['lon'] - 2.*a.first['lon'])
         x = x / ( (2.*b.first['lat'] - 2.*c.first['lat'])*(2.*b.first['lon'] - 2.*a.first['lon']) - (2.*a.first['lat'] - 2.*b.first['lat'])*(2.*c.first['lon'] - 2.*b.first['lon']) )
 
-        y = ( (a.second^2 - b.second^2) + (b.first['lat']^2 - a.first['lat']^2) + (b.first['lon']^2 - a.first['lon']^2) + x*(2.*a.first['lat'] - 2.*b.first['lat']) ) 
+        y = ( (a.second^2 - b.second^2) + (b.first['lat']^2 - a.first['lat']^2) + (b.first['lon']^2 - a.first['lon']^2) + x*(2.*a.first['lat'] - 2.*b.first['lat']) )
         y = y / (2.*b.first['lon'] - 2.*a.first['lon'])
 
         final_target = dronekit.LocationGlobalRelative(x,y,30)
@@ -169,7 +169,7 @@ def main(args):
     q.put(curr_top_left)
     q.put(curr_bot_left)
     q.put(curr_bot_right)
-    
+
     direction = 'north'
     curr_topr = (top,right)
     curr_topl = (top,left)
@@ -203,9 +203,9 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Commands vehicle using vehicle.simple_goto.')
-    parser.add_argument('--connect', 
+    parser.add_argument('--connect',
                        help="Vehicle connection target string. If not specified, SITL automatically started and used.")
     parser.add_argument('--delivery', help="directions for the drone to take to")
     args = parser.parse_args()
-   
+
     main(args)
