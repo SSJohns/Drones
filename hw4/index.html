@@ -10,12 +10,22 @@
   </head>
   <body>
     <h3>My Google Maps Demo</h3>
+
     <div id="map"></div>
-    <script src="drones.js"></script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWkrVfY0kDdocYMgTBafleKjzLRKYiXBw&callback=initMap">
-    </script>
+	<script src="routes.js"></script>
 	<script src="./GoogleMaps/droneCoordinates.json"></script>
-	<!-- <script src="drones.js"></script> -->
+	<script src="drones.js"></script>
+	<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWkrVfY0kDdocYMgTBafleKjzLRKYiXBw&callback=initMap">
+	</script>
+	<!-- <script type="text/javascript">
+	console.log(drone_markers);
+	document.addEventListener('DOMContentLoaded', function(){ for(i=0;i<=batch.length;i++){
+		// sleepFor(2000);
+		points = batch[i];
+		console.log(points)
+    }
+	}, false());
+	</script> -->
   </body>
 </html>

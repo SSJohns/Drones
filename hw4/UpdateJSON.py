@@ -1,5 +1,5 @@
 from shutil import copyfile
-
+import os
 
 # Create two empty dictionaries to store Longitude and Latitude
 # Note: If I wished to store more than two elements I would definitely create a class for this.
@@ -27,6 +27,7 @@ def removeMapCoordinateData(droneID):
 # We then make an OS level call to copy the temporary file to the location read by Google Maps
 def generateNewFile():
     dronesOnMap = len(LongitudeDict)
+    # import ipdb; ipdb.set_trace()
     with open("currentPositions.json", "a") as tempCoordFile:
         tempCoordFile.write('data = \'[')
         ctr = 0
@@ -49,7 +50,10 @@ def generateNewFile():
             else:
                tempCoordFile.write(',')
     copyfile("currentPositions.json", "./GoogleMaps/droneCoordinates.json")
-        #os.remove("currentPositions.json")
+    os.remove("currentPositions.json")
 
 def getFile():
-    return (LatitudeDict, LongitudeDict)
+    for key, value in LatitudeDict.items():
+        yield (key, value, LongitudeDict[key])
+
+            # return (LatitudeDict.iteritems(), LongitudeDict)
